@@ -16,17 +16,17 @@ public class SensorService extends Service implements SensorEventListener {
     private Sensor sensorAccelerometer, sensorGyroscope;
 
     @Override
-    public void onCreate(){
+    public void onCreate() {
 
     }
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId){
+    public int onStartCommand(Intent intent, int flags, int startId) {
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         sensorAccelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        sensorManager.registerListener(this, sensorAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(this, sensorAccelerometer, SensorManager.SENSOR_DELAY_GAME);
         sensorGyroscope = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
-        sensorManager.registerListener(this, sensorGyroscope, SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(this, sensorGyroscope, SensorManager.SENSOR_DELAY_GAME);
 
         dbHelper = new SQLiteHelper(getApplicationContext());
         return START_STICKY;
@@ -39,9 +39,9 @@ public class SensorService extends Service implements SensorEventListener {
     }
 
     @Override
-    public void onDestroy(){
-        //super.onDestroy();
-        //this.stopSelf();
+    public void onDestroy() {
+        super.onDestroy();
+        this.stopSelf();
     }
 
     @Override
@@ -52,7 +52,7 @@ public class SensorService extends Service implements SensorEventListener {
             float x = event.values[0];
             float y = event.values[1];
             float z = event.values[2];
-            Log.e("Tag",Float.toString(x));
+            Log.e("Tag", Float.toString(x));
 
             long time = System.currentTimeMillis();
 
